@@ -29,14 +29,10 @@ jobs:
 
             - name: Sync DAGs to Master Node
               run: |
-                ssh ec2-user@${{ secrets.MASTER_IP }} 'cp /etc/skel/.bashrc ~/.bashrc' && scp -r ./airflow/dags/ ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
+                ssh ec2-user@${{ secrets.MASTER_IP }} 'cp /etc/skel/.bashrc ~/.bashrc' && scp -r ./airflow/dags/* ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
 
             - name: Sync DAGs to Worker Nodes
-              run: |
-                ssh ec2-user@${{ secrets.MASTER_IP }} << 'EOF'
-                  set -e
-                  WORKER_IPS="${{ secrets.WORKER1_PRIVATE_IP }} ${{ secrets.WORKER2_PRIVATE_IP }} ${{ secrets.WORKER3_PRIVATE_IP }}"
-                  for WORKER_IP in $WORKER_IPS; do
-                    scp -r $MASTER_DAGS_DIR/ ec2-user@$WORKER_IP:$WORKER_DAGS_DIR/
-                  done
-                EOF
+              run: |  
+                for WORKER_IP in $WORKER_IPS; do
+                  ssh -A ec2-user@${{ secrets.MASTER_IP }} "ssh ec2-user@$WORKER_IP 'cp /etc/skel/.bashrc ~/.bashrc' && scp -r ./airflow/dags/* ec2-user@$WORKER_IP:$WORKER_DAGS_DIR'"
+                done
