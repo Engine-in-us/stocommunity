@@ -6,6 +6,7 @@ ENV AIRFLOW__WORKER__NAME="worker_node"
 
 ENV AIRFLOW__MASTER__IP="ec2-43-200-116-182.ap-northeast-2.compute.amazonaws.com"
 ENV AIRFLOW__REDIS__HOST=${AIRFLOW__MASTER__IP}:6379
+ENV AIRFLOW__POSTGRESQL__HOST=${AIRFLOW__MASTER__IP}:5432
 ENV AIRFLOW__CORE__EXECUTOR="CeleryExecutor"
 
 ENV AIRFLOW__DATABASE__SQL_ALCHEMY_CONN="postgresql+psycopg2://postgres:postgres@team6-postgres-for-airflow.ch4xfyi6stod.ap-northeast-2.rds.amazonaws.com:5432/airflow"
@@ -16,11 +17,12 @@ ENV AIRFLOW__LOGGING__BASE_LOG_FOLDER="${AIRFLOW_HOME}/log"
 ENV AIRFLOW__SCHEDULER__CHILD_PROCESS_LOG_DIRECTORY="${AIRFLOW_HOME}/log/scheduler"
 ENV AIRFLOW__LOGGING__DAG_PROCESSOR_MANAGER_LOG_LOCATION="${AIRFLOW_HOME}/log/dag_processor_manager/dag_processor_manager.log"
 ENV AIRFLOW__CORE__HOSTNAME_CALLABLE="airflow.utils.net.get_host_ip_address"
-ENV AIRFLOW__CORE__FERNET_KEY="RWiSSET31T8RqUil30Vppw0yPeS4u8D-JYn45I3yDfc="
-ENV AIRFLOW__WEBSERVER__SECRET_KEY="b'\xbe\xd5\x96\xac\xc9\x91\xb9gd\xac\x91\xe5\x84\x0f\x80\xff'"
+ENV AIRFLOW__CORE__FERNET_KEY="yCd2SFMy6F0YHrF62N3XhA0gYe0cOTRqUXssh6FjyCk="
+ENV AIRFLOW__WEBSERVER__SECRET_KEY="b'M\x9e\xe3\x9d\xf4\x1c:B\x82\xbb\xea\x0fl\x86\xfe|'"
 ENV AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION="true"
 ENV AIRFLOW__CORE__LOAD_EXAMPLES="false"
 ENV AIRFLOW__API__AUTH_BACKENDS="airflow.api.auth.backend.basic_auth"
+ENV AIRFLOW__FLOWER__AUTHENTICATED_API="true"
 ENV _PIP_ADDITIONAL_REQUIREMENTS="pandas requests s3fs boto3 webdriver_manager"
 
 ARG DEBIAN_FRONTEND=noninteractive

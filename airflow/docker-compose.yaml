@@ -56,7 +56,7 @@ x-airflow-common:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@team6-postgres-for-airflow.ch4xfyi6stod.ap-northeast-2.rds.amazonaws.com:5432/airflow
-    # AIRFLOW__CORE__SQL_ALCHEMY_CONN: ${AIRFLOW__CORE__SQL_ALCHEMY_CONN}
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@team6-postgres-for-airflow.ch4xfyi6stod.ap-northeast-2.rds.amazonaws.com:5432/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://postgres:postgres@team6-postgres-for-airflow.ch4xfyi6stod.ap-northeast-2.rds.amazonaws.com:5432/airflow
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: 'yCd2SFMy6F0YHrF62N3XhA0gYe0cOTRqUXssh6FjyCk='

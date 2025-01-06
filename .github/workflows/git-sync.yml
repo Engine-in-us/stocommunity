@@ -1,0 +1,43 @@
+name: Sync Airflow DAGs
+
+on:
+  push:
+    branches:
+      - develop
+      - feat/holee
+
+env:
+    MASTER_DAGS_DIR: /home/ec2-user/airflow_master/dags
+    WORKER_DAGS_DIR: /home/ec2-user/airflow_worker/dags
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+    
+            - name: Set up SSH
+              uses: webfactory/ssh-agent@v0.5.3
+              with:
+                ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+            - name: Add known hosts
+              run: |
+                echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+                echo "StrictHostKeyChecking no" >> ~/.ssh/config
+    
+            - name: Sync DAGs to Master Node
+              run: |
+                rsync -avz ./airflow/dags/ ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
+
+            - name: Sync DAGs to Worker Nodes
+              run: |
+                ssh ec2-user@${{ secrets.MASTER_IP }} << 'EOF'
+                  set -e
+                  WORKER_IPS="${{ secrets.WORKER1_PRIVATE_IP }} ${{ secrets.WORKER2_PRIVATE_IP }} ${{ secrets.WORKER3_PRIVATE_IP }}"
+                  for WORKER_IP in $WORKER_IPS; do
+                    rsync -avz $MASTER_DAGS_DIR/ ec2-user@$WORKER_IP:$WORKER_DAGS_DIR/
+                  done
+                EOF
