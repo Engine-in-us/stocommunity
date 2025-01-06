@@ -29,7 +29,7 @@ jobs:
 
             - name: Sync DAGs to Master Node
               run: |
-                scp -r ./airflow/dags/ ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
+                ssh ec2-user@${{ secrets.MASTER_IP }} 'cp /etc/skel/.bashrc ~/.bashrc' && scp -r ./airflow/dags/ ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
 
             - name: Sync DAGs to Worker Nodes
               run: |
