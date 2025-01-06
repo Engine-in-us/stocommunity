@@ -9,6 +9,7 @@ on:
 env:
     MASTER_DAGS_DIR: /home/ec2-user/airflow_master/dags
     WORKER_DAGS_DIR: /home/ec2-user/airflow_worker/dags
+    WORKER_IPS: ${{ secrets.WORKER1_PRIVATE_IP }} ${{ secrets.WORKER2_PRIVATE_IP }} ${{ secrets.WORKER3_PRIVATE_IP }}
 
 jobs:
     sync-dags:
@@ -29,10 +30,14 @@ jobs:
 
             - name: Sync DAGs to Master Node
               run: |
-                ssh ec2-user@${{ secrets.MASTER_IP }} 'cp /etc/skel/.bashrc ~/.bashrc' && scp -r ./airflow/dags/* ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
+                ssh ec2-user@${{ secrets.MASTER_IP }} 'cp /etc/skel/.bashrc ~/.bashrc' && 
+                scp -r ./airflow/dags/* ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR &&
+                sudo chown -R ec2-user:root $MASTER_DAGS_DIR
 
             - name: Sync DAGs to Worker Nodes
               run: |  
                 for WORKER_IP in $WORKER_IPS; do
-                  ssh -A ec2-user@${{ secrets.MASTER_IP }} "ssh ec2-user@$WORKER_IP 'cp /etc/skel/.bashrc ~/.bashrc' && scp -r ./airflow/dags/* ec2-user@$WORKER_IP:$WORKER_DAGS_DIR'"
+                  ssh -A ec2-user@${{ secrets.MASTER_IP }} "ssh ec2-user@$WORKER_IP 'cp /etc/skel/.bashrc ~/.bashrc' && 
+                  scp -r ./airflow/dags/* ec2-user@$WORKER_IP:$WORKER_DAGS_DIR'" &&
+                  sudo chown -R ec2-user:root $WORKER_DAGS_DIR
                 done
