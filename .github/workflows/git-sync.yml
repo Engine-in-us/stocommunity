@@ -34,7 +34,7 @@ jobs:
     
             - name: Sync DAGs to Master Node
               run: |
-                rsync -e "ssh -q" -avz ./airflow/dags/ ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
+                rsync -e "ssh -q" --rsync-path="sudo rsync" -avz ./airflow/dags/ ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
 
             - name: Sync DAGs to Worker Nodes
               run: |
