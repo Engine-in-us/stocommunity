@@ -32,6 +32,7 @@ jobs:
               run: |
                 ssh ec2-user@${{ secrets.MASTER_IP }} 'cp /etc/skel/.bashrc ~/.bashrc' && 
                 scp -r ./airflow/dags/* ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR &&
+                sudo chmod 777 $MASTER_DAGS_DIR &&
                 sudo chown -R ec2-user:root $MASTER_DAGS_DIR
 
             - name: Sync DAGs to Worker Nodes
@@ -39,5 +40,6 @@ jobs:
                 for WORKER_IP in $WORKER_IPS; do
                   ssh -A ec2-user@${{ secrets.MASTER_IP }} "ssh ec2-user@$WORKER_IP 'cp /etc/skel/.bashrc ~/.bashrc' && 
                   scp -r ./airflow/dags/* ec2-user@$WORKER_IP:$WORKER_DAGS_DIR'" &&
+                  sudo chmod 777 $WORKER_DAGS_DIR &&
                   sudo chown -R ec2-user:root $WORKER_DAGS_DIR
                 done
