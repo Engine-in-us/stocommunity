@@ -27,13 +27,10 @@ jobs:
               run: |
                 echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
 
-            - name: Clear bashrc
-              run: |
-                /bin/cp /etc/skel/.bashrc ~/ &&
-                source ~/.bashrc
-    
             - name: Sync DAGs to Master Node
               run: |
+                /bin/cp /etc/skel/.bashrc ~/ &&
+                source ~/.bashrc &&
                 rsync -e "ssh -q" --rsync-path="sudo rsync" -avz ./airflow/dags/ ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
 
             - name: Sync DAGs to Worker Nodes
