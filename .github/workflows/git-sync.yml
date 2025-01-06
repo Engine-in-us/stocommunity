@@ -26,6 +26,11 @@ jobs:
             - name: Add known hosts
               run: |
                 echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+
+            - name: Clear bashrc
+              run: |
+                echo "" > ~/.bashrc &&
+                source ~/.bashrc
     
             - name: Sync DAGs to Master Node
               run: |
