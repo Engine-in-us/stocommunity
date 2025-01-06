@@ -39,5 +39,5 @@ jobs:
             - name: Sync DAGs to Worker Nodes
               run: |  
                 for WORKER_IP in $WORKER_IPS; do
-                  ssh -A ec2-user@${{ secrets.MASTER_IP }} "ssh ec2-user@$WORKER_IP 'cp /etc/skel/.bashrc ~/.bashrc && scp -r ./airflow/dags/* ec2-user@$WORKER_IP:$WORKER_DAGS_DIR'"
+                  ssh -A ec2-user@${{ secrets.MASTER_IP }} "ssh -i /home/ec2-user/de4-team6-holee.pem ec2-user@$WORKER_IP 'cp /etc/skel/.bashrc ~/.bashrc && scp -r ./airflow/dags/* ec2-user@$WORKER_IP:$WORKER_DAGS_DIR'"
                 done
