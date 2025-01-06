@@ -11,7 +11,7 @@ env:
     WORKER_DAGS_DIR: /home/ec2-user/airflow_worker/dags
 
 jobs:
-    build:
+    sync-dags:
         runs-on: ubuntu-latest
 
         steps:
