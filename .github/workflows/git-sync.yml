@@ -27,7 +27,6 @@ jobs:
             - name: Add known hosts
               run: |
                 echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
-                ssh-keygen -R ${{ secrets.MASTER_IP }} >> ~/.ssh/known_hosts
                 for WORKER_IP in $WORKER_IPS; do
                   ssh-keygen -R $WORKER_IP >> ~/.ssh/known_hosts
                 done
