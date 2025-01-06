@@ -26,7 +26,6 @@ jobs:
             - name: Add known hosts
               run: |
                 echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
-                echo "StrictHostKeyChecking no" >> ~/.ssh/config
     
             - name: Sync DAGs to Master Node
               run: |
