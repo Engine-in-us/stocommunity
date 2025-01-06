@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - develop
-      - feat/holee
 
 env:
     MASTER_DAGS_DIR: /home/ec2-user/airflow_master/dags
