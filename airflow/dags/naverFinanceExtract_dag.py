@@ -42,10 +42,8 @@ def crawl_stock_data(**kwargs):
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Chrome(
-            service=Service(ChromeDriverManager().install()),
-            options=options
-        )
+        #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
+        driver = webdriver.Chrome(service=Service('/usr/local/bin/chromedriver'), options=options)  # ChromeDriver 경로
         driver.get("https://example.com")
         driver.quit()
     except Exception as e:
@@ -137,10 +135,8 @@ def crawl_kospi_kosdaq_data(**kwargs):
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Chrome(
-            service=Service(ChromeDriverManager().install()),
-            options=options
-        )
+        #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
+        driver = webdriver.Chrome(service=Service('/usr/local/bin/chromedriver'), options=options)  # ChromeDriver 경로
         driver.get("https://example.com")
         driver.quit()
     except Exception as e:

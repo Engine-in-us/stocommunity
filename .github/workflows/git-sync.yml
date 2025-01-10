@@ -1,4 +1,4 @@
-name: Sync Airflow DAGs
+name: Sync Airflow DAGs and Modules
 
 on:
   push:
@@ -6,34 +6,34 @@ on:
       - develop
 
 env:
-    MASTER_DAGS_DIR: /home/ec2-user/airflow_master/dags
-    WORKER_DAGS_DIR: /home/ec2-user/airflow_worker/dags
-    WORKER_IPS: ${{ secrets.WORKER1_PRIVATE_IP }} ${{ secrets.WORKER2_PRIVATE_IP }} ${{ secrets.WORKER3_PRIVATE_IP }}
+  MASTER_DAGS_DIR: /home/ec2-user/airflow_master/dags
+  WORKER_DAGS_DIR: /home/ec2-user/airflow_worker/dags
+  WORKER_IPS: ${{ secrets.WORKER1_PRIVATE_IP }} ${{ secrets.WORKER2_PRIVATE_IP }} ${{ secrets.WORKER3_PRIVATE_IP }}
 
 jobs:
-    sync-dags:
-        runs-on: ubuntu-latest
+  sync-dags:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
-    
-            - name: Set up SSH
-              uses: webfactory/ssh-agent@v0.5.3
-              with:
-                ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        
-            - name: Add known hosts
-              run: |
-                echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-            - name: Sync DAGs to Master Node
-              run: |
-                ssh ec2-user@${{ secrets.MASTER_IP }} 'cp /etc/skel/.bashrc ~/.bashrc' && 
-                scp -r ./airflow/dags/* ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-            - name: Sync DAGs to Worker Nodes
-              run: |  
-                for WORKER_IP in $WORKER_IPS; do
-                  ssh -A ec2-user@${{ secrets.MASTER_IP }} "scp -r $MASTER_DAGS_DIR/* ec2-user@$WORKER_IP:$WORKER_DAGS_DIR" 
-                done
+      - name: Add known hosts
+        run: |
+          echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+
+      - name: Sync DAGs to Master Node
+        run: |
+          ssh ec2-user@${{ secrets.MASTER_IP }} 'cp /etc/skel/.bashrc ~/.bashrc' && 
+          scp -r ./airflow/dags/* ec2-user@${{ secrets.MASTER_IP }}:$MASTER_DAGS_DIR
+
+      - name: Sync DAGs to Worker Nodes
+        run: |
+          for WORKER_IP in $WORKER_IPS; do
+            ssh -A ec2-user@${{ secrets.MASTER_IP }} "scp -r $MASTER_DAGS_DIR/* ec2-user@$WORKER_IP:$WORKER_DAGS_DIR" 
+          done
