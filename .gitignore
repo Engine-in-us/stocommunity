@@ -5,3 +5,4 @@ airflow/dags/tmp.py
 airflow/dags/naverCafeExtract_dag.py
 test
 test/
+.python-version
