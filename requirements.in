@@ -1,0 +1,8 @@
+pandas==2.1.2
+requests==2.31.0
+boto3==1.28.64
+selenium==4.27.1
+webdriver_manager==4.0.2
+apache-airflow[celery]==2.7.3
+s3fs
+beautifulsoup4==4.12.2

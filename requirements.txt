@@ -1,0 +1,561 @@
+aiohappyeyeballs==2.4.4
+    # via aiohttp
+aiohttp==3.11.11
+    # via
+    #   apache-airflow-providers-http
+    #   s3fs
+aiosignal==1.3.2
+    # via aiohttp
+alembic==1.14.0
+    # via apache-airflow
+amqp==5.3.1
+    # via kombu
+annotated-types==0.7.0
+    # via pydantic
+anyio==4.8.0
+    # via httpx
+apache-airflow[celery]==2.7.3
+    # via
+    #   -r requirements.in
+    #   apache-airflow-providers-celery
+    #   apache-airflow-providers-common-sql
+    #   apache-airflow-providers-ftp
+    #   apache-airflow-providers-http
+    #   apache-airflow-providers-imap
+    #   apache-airflow-providers-sqlite
+apache-airflow-providers-celery==3.7.3
+    # via apache-airflow
+apache-airflow-providers-common-sql==1.15.0
+    # via
+    #   apache-airflow
+    #   apache-airflow-providers-sqlite
+apache-airflow-providers-ftp==3.10.1
+    # via apache-airflow
+apache-airflow-providers-http==4.12.0
+    # via apache-airflow
+apache-airflow-providers-imap==3.6.1
+    # via apache-airflow
+apache-airflow-providers-sqlite==3.8.2
+    # via apache-airflow
+apispec[yaml]==6.8.1
+    # via flask-appbuilder
+argcomplete==3.5.3
+    # via apache-airflow
+asgiref==3.8.1
+    # via
+    #   apache-airflow
+    #   apache-airflow-providers-http
+async-timeout==5.0.1
+    # via
+    #   aiohttp
+    #   redis
+attrs==24.3.0
+    # via
+    #   aiohttp
+    #   apache-airflow
+    #   cattrs
+    #   jsonschema
+    #   outcome
+    #   referencing
+    #   trio
+babel==2.16.0
+    # via flask-babel
+beautifulsoup4==4.12.2
+    # via -r requirements.in
+billiard==4.2.1
+    # via celery
+blinker==1.9.0
+    # via apache-airflow
+boto3==1.28.64
+    # via -r requirements.in
+botocore==1.31.85
+    # via
+    #   boto3
+    #   s3fs
+    #   s3transfer
+cachelib==0.9.0
+    # via
+    #   flask-caching
+    #   flask-session
+cattrs==24.1.2
+    # via apache-airflow
+celery[redis]==5.4.0
+    # via
+    #   apache-airflow
+    #   apache-airflow-providers-celery
+    #   flower
+certifi==2024.12.14
+    # via
+    #   httpcore
+    #   httpx
+    #   requests
+    #   selenium
+cffi==1.17.1
+    # via cryptography
+charset-normalizer==3.4.1
+    # via requests
+click==8.1.8
+    # via
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
+    #   clickclick
+    #   flask
+    #   flask-appbuilder
+click-didyoumean==0.3.1
+    # via celery
+click-plugins==1.1.1
+    # via celery
+click-repl==0.3.0
+    # via celery
+clickclick==20.10.2
+    # via connexion
+colorama==0.4.6
+    # via flask-appbuilder
+colorlog==4.8.0
+    # via apache-airflow
+configupdater==3.2
+    # via apache-airflow
+connexion[flask]==2.14.2
+    # via apache-airflow
+cron-descriptor==1.4.5
+    # via apache-airflow
+croniter==6.0.0
+    # via apache-airflow
+cryptography==43.0.3
+    # via apache-airflow
+deprecated==1.2.15
+    # via
+    #   apache-airflow
+    #   limits
+    #   opentelemetry-api
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+    #   opentelemetry-semantic-conventions
+dill==0.3.9
+    # via apache-airflow
+dnspython==2.7.0
+    # via email-validator
+email-validator==1.3.1
+    # via flask-appbuilder
+exceptiongroup==1.2.2
+    # via
+    #   anyio
+    #   cattrs
+    #   trio
+    #   trio-websocket
+flask==2.2.5
+    # via
+    #   apache-airflow
+    #   connexion
+    #   flask-appbuilder
+    #   flask-babel
+    #   flask-caching
+    #   flask-jwt-extended
+    #   flask-limiter
+    #   flask-login
+    #   flask-session
+    #   flask-sqlalchemy
+    #   flask-wtf
+flask-appbuilder==4.3.6
+    # via apache-airflow
+flask-babel==2.0.0
+    # via flask-appbuilder
+flask-caching==2.3.0
+    # via apache-airflow
+flask-jwt-extended==4.7.1
+    # via flask-appbuilder
+flask-limiter==3.10.0
+    # via flask-appbuilder
+flask-login==0.6.3
+    # via
+    #   apache-airflow
+    #   flask-appbuilder
+flask-session==0.8.0
+    # via apache-airflow
+flask-sqlalchemy==2.5.1
+    # via flask-appbuilder
+flask-wtf==1.2.2
+    # via
+    #   apache-airflow
+    #   flask-appbuilder
+flower==2.0.1
+    # via
+    #   apache-airflow
+    #   apache-airflow-providers-celery
+frozenlist==1.5.0
+    # via
+    #   aiohttp
+    #   aiosignal
+fsspec==2024.12.0
+    # via s3fs
+google-re2==1.1.20240702
+    # via
+    #   apache-airflow
+    #   apache-airflow-providers-celery
+googleapis-common-protos==1.66.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+graphviz==0.20.3
+    # via apache-airflow
+grpcio==1.69.0
+    # via opentelemetry-exporter-otlp-proto-grpc
+gunicorn==23.0.0
+    # via apache-airflow
+h11==0.14.0
+    # via
+    #   httpcore
+    #   wsproto
+httpcore==1.0.7
+    # via httpx
+httpx==0.28.1
+    # via apache-airflow
+humanize==4.11.0
+    # via flower
+idna==3.10
+    # via
+    #   anyio
+    #   email-validator
+    #   httpx
+    #   requests
+    #   trio
+    #   yarl
+importlib-metadata==8.5.0
+    # via
+    #   flask
+    #   markdown
+    #   opentelemetry-api
+inflection==0.5.1
+    # via connexion
+itsdangerous==2.2.0
+    # via
+    #   apache-airflow
+    #   connexion
+    #   flask
+    #   flask-wtf
+jinja2==3.1.5
+    # via
+    #   apache-airflow
+    #   flask
+    #   flask-babel
+    #   python-nvd3
+jmespath==1.0.1
+    # via
+    #   boto3
+    #   botocore
+jsonschema==4.23.0
+    # via
+    #   apache-airflow
+    #   connexion
+    #   flask-appbuilder
+jsonschema-specifications==2024.10.1
+    # via jsonschema
+kombu==5.4.2
+    # via celery
+lazy-object-proxy==1.10.0
+    # via apache-airflow
+limits==4.0.0
+    # via flask-limiter
+linkify-it-py==2.0.3
+    # via apache-airflow
+lockfile==0.12.2
+    # via
+    #   apache-airflow
+    #   python-daemon
+mako==1.3.8
+    # via alembic
+markdown==3.7
+    # via apache-airflow
+markdown-it-py==3.0.0
+    # via
+    #   apache-airflow
+    #   mdit-py-plugins
+    #   rich
+markupsafe==3.0.2
+    # via
+    #   apache-airflow
+    #   jinja2
+    #   mako
+    #   werkzeug
+    #   wtforms
+marshmallow==3.25.0
+    # via
+    #   flask-appbuilder
+    #   marshmallow-oneofschema
+    #   marshmallow-sqlalchemy
+marshmallow-oneofschema==3.1.1
+    # via apache-airflow
+marshmallow-sqlalchemy==0.26.1
+    # via flask-appbuilder
+mdit-py-plugins==0.4.2
+    # via apache-airflow
+mdurl==0.1.2
+    # via markdown-it-py
+more-itertools==10.5.0
+    # via apache-airflow-providers-common-sql
+msgspec==0.19.0
+    # via flask-session
+multidict==6.1.0
+    # via
+    #   aiohttp
+    #   yarl
+numpy==1.26.4
+    # via pandas
+opentelemetry-api==1.29.0
+    # via
+    #   apache-airflow
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+    #   opentelemetry-sdk
+    #   opentelemetry-semantic-conventions
+opentelemetry-exporter-otlp==1.29.0
+    # via apache-airflow
+opentelemetry-exporter-otlp-proto-common==1.29.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-exporter-otlp-proto-grpc==1.29.0
+    # via opentelemetry-exporter-otlp
+opentelemetry-exporter-otlp-proto-http==1.29.0
+    # via opentelemetry-exporter-otlp
+opentelemetry-proto==1.29.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-common
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-sdk==1.29.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-semantic-conventions==0.50b0
+    # via opentelemetry-sdk
+ordered-set==4.1.0
+    # via flask-limiter
+outcome==1.3.0.post0
+    # via trio
+packaging==24.2
+    # via
+    #   apache-airflow
+    #   apispec
+    #   connexion
+    #   gunicorn
+    #   limits
+    #   marshmallow
+    #   webdriver-manager
+pandas==2.1.2
+    # via -r requirements.in
+pathspec==0.12.1
+    # via apache-airflow
+pendulum==2.1.2
+    # via apache-airflow
+pluggy==1.5.0
+    # via apache-airflow
+prison==0.2.1
+    # via flask-appbuilder
+prometheus-client==0.21.1
+    # via flower
+prompt-toolkit==3.0.48
+    # via click-repl
+propcache==0.2.1
+    # via
+    #   aiohttp
+    #   yarl
+protobuf==5.29.3
+    # via
+    #   googleapis-common-protos
+    #   opentelemetry-proto
+psutil==6.1.1
+    # via apache-airflow
+pycparser==2.22
+    # via cffi
+pydantic==2.10.5
+    # via apache-airflow
+pydantic-core==2.27.2
+    # via pydantic
+pygments==2.19.1
+    # via
+    #   apache-airflow
+    #   rich
+pyjwt==2.10.1
+    # via
+    #   apache-airflow
+    #   flask-appbuilder
+    #   flask-jwt-extended
+pysocks==1.7.1
+    # via urllib3
+python-daemon==3.1.2
+    # via apache-airflow
+python-dateutil==2.9.0.post0
+    # via
+    #   apache-airflow
+    #   botocore
+    #   celery
+    #   croniter
+    #   flask-appbuilder
+    #   pandas
+    #   pendulum
+python-dotenv==1.0.1
+    # via webdriver-manager
+python-nvd3==0.16.0
+    # via apache-airflow
+python-slugify==8.0.4
+    # via
+    #   apache-airflow
+    #   python-nvd3
+pytz==2024.2
+    # via
+    #   croniter
+    #   flask-babel
+    #   flower
+    #   pandas
+pytzdata==2020.1
+    # via pendulum
+pyyaml==6.0.2
+    # via
+    #   apispec
+    #   clickclick
+    #   connexion
+redis==5.2.1
+    # via celery
+referencing==0.35.1
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
+requests==2.31.0
+    # via
+    #   -r requirements.in
+    #   apache-airflow-providers-http
+    #   connexion
+    #   opentelemetry-exporter-otlp-proto-http
+    #   requests-toolbelt
+    #   webdriver-manager
+requests-toolbelt==1.0.0
+    # via apache-airflow-providers-http
+rfc3339-validator==0.1.4
+    # via apache-airflow
+rich==13.9.4
+    # via
+    #   apache-airflow
+    #   flask-limiter
+    #   rich-argparse
+rich-argparse==1.6.0
+    # via apache-airflow
+rpds-py==0.22.3
+    # via
+    #   jsonschema
+    #   referencing
+s3fs==0.4.2
+    # via -r requirements.in
+s3transfer==0.7.0
+    # via boto3
+selenium==4.27.1
+    # via -r requirements.in
+setproctitle==1.3.4
+    # via apache-airflow
+six==1.17.0
+    # via
+    #   prison
+    #   python-dateutil
+    #   rfc3339-validator
+sniffio==1.3.1
+    # via
+    #   anyio
+    #   trio
+sortedcontainers==2.4.0
+    # via trio
+soupsieve==2.6
+    # via beautifulsoup4
+sqlalchemy==1.4.54
+    # via
+    #   alembic
+    #   apache-airflow
+    #   flask-appbuilder
+    #   flask-sqlalchemy
+    #   marshmallow-sqlalchemy
+    #   sqlalchemy-jsonfield
+    #   sqlalchemy-utils
+sqlalchemy-jsonfield==1.0.2
+    # via apache-airflow
+sqlalchemy-utils==0.41.2
+    # via flask-appbuilder
+sqlparse==0.5.3
+    # via apache-airflow-providers-common-sql
+tabulate==0.9.0
+    # via apache-airflow
+tenacity==9.0.0
+    # via apache-airflow
+termcolor==2.5.0
+    # via apache-airflow
+text-unidecode==1.3
+    # via python-slugify
+tornado==6.4.2
+    # via flower
+trio==0.28.0
+    # via
+    #   selenium
+    #   trio-websocket
+trio-websocket==0.11.1
+    # via selenium
+typing-extensions==4.12.2
+    # via
+    #   alembic
+    #   anyio
+    #   apache-airflow
+    #   asgiref
+    #   cattrs
+    #   flask-limiter
+    #   kombu
+    #   limits
+    #   multidict
+    #   opentelemetry-sdk
+    #   pydantic
+    #   pydantic-core
+    #   rich
+    #   selenium
+tzdata==2024.2
+    # via
+    #   celery
+    #   kombu
+    #   pandas
+uc-micro-py==1.0.3
+    # via linkify-it-py
+unicodecsv==0.14.1
+    # via apache-airflow
+urllib3[socks]==1.26.20
+    # via
+    #   botocore
+    #   requests
+    #   selenium
+vine==5.1.0
+    # via
+    #   amqp
+    #   celery
+    #   kombu
+wcwidth==0.2.13
+    # via prompt-toolkit
+webdriver-manager==4.0.2
+    # via -r requirements.in
+websocket-client==1.8.0
+    # via selenium
+werkzeug==2.2.3
+    # via
+    #   apache-airflow
+    #   connexion
+    #   flask
+    #   flask-jwt-extended
+    #   flask-login
+wrapt==1.17.0
+    # via deprecated
+wsproto==1.2.0
+    # via trio-websocket
+wtforms==3.0.1
+    # via
+    #   apache-airflow
+    #   flask-appbuilder
+    #   flask-wtf
+yarl==1.18.3
+    # via aiohttp
+zipp==3.21.0
+    # via importlib-metadata

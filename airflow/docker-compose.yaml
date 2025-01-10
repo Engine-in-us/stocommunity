@@ -54,33 +54,62 @@ x-airflow-common:
   # build: .
   environment:
     &airflow-common-env
+    TZ: Asia/Seoul
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
-    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@team6-postgres-for-airflow.ch4xfyi6stod.ap-northeast-2.rds.amazonaws.com:5432/airflow
-    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@team6-postgres-for-airflow.ch4xfyi6stod.ap-northeast-2.rds.amazonaws.com:5432/airflow
-    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://postgres:postgres@team6-postgres-for-airflow.ch4xfyi6stod.ap-northeast-2.rds.amazonaws.com:5432/airflow
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: mysql+mysqldb://airflow:airflow@mysql:3306/airflow
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: mysql+mysqlconnector://airflow:airflow@mysql:3306/airflow
+    AIRFLOW__CELERY__RESULT_BACKEND: db+mysql://airflow:airflow@mysql:3306/airflow
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
-    AIRFLOW__CORE__FERNET_KEY: 'yCd2SFMy6F0YHrF62N3XhA0gYe0cOTRqUXssh6FjyCk='
-    AIRFLOW__WEBSERVER__SECRET_KEY: b'M\x9e\xe3\x9d\xf4\x1c:B\x82\xbb\xea\x0fl\x86\xfe|'
+    AIRFLOW__CORE__FERNET_KEY: 'ME0isv3R8kGa4w9IwNRu4YaBO2V5-7qrzxzRxdbZ1cQ='
+    AIRFLOW__WEBSERVER__SECRET_KEY: b'\x01\x11\xc5\x04\xaehR4GQ\t\xe6\x1b<\x83$'
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
-    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- pandas requests s3fs boto3 selenium webdriver_manager time os}
-    CHROME_DRIVER_VERSION: "114.0.5735.90"  # 추가된 환경 변수
+    AIRFLOW__FLOWER__AUTHENTICATED_API: 'true'
+    AIRFLOW__CORE__TEST_CONNECTION: 'true'
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- pandas requests s3fs boto3 selenium webdriver_manager}
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
-  command: >
-    bash -c "mkdir -p /opt/airflow/logs/scheduler && exec airflow scheduler"
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
     redis:
       condition: service_healthy
+    mysql:
+      condition: service_healthy
 
 services:
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_USER: "airflow"
+      MYSQL_PASSWORD: "airflow"
+      MYSQL_DATABASE: "airflow"
+    cap_add:
+      - SYS_NICE
+    volumes:
+      - mysql-db-volume:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+      - --explicit_defaults_for_timestamp=1
+      - --lower-case-table-names=1
+      - --sql-mode=ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+
   redis:
     image: redis:latest
     ports:
@@ -125,28 +154,28 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
-  # airflow-worker:
-  #   <<: *airflow-common
-  #   command: celery worker
-  #   healthcheck:
-  #     # yamllint disable rule:line-length
-  #     test:
-  #       - "CMD-SHELL"
-  #       - 'celery --app airflow.providers.celery.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}" || celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 5
-  #     start_period: 30s
-  #   environment:
-  #     <<: *airflow-common-env
-  #     # Required to handle warm shutdown of the celery workers properly
-  #     # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
-  #     DUMB_INIT_SETSID: "0"
-  #   restart: always
-  #   depends_on:
-  #     <<: *airflow-common-depends-on
-  #     airflow-init:
-  #       condition: service_completed_successfully
+  airflow-worker:
+     <<: *airflow-common
+     command: celery worker
+     healthcheck:
+       # yamllint disable rule:line-length
+       test:
+         - "CMD-SHELL"
+         - 'celery --app airflow.providers.celery.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}" || celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
+       interval: 30s
+       timeout: 10s
+       retries: 5
+       start_period: 30s
+     environment:
+       <<: *airflow-common-env
+       # Required to handle warm shutdown of the celery workers properly
+       # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
+       DUMB_INIT_SETSID: "0"
+     restart: always
+     depends_on:
+       <<: *airflow-common-depends-on
+       airflow-init:
+         condition: service_completed_successfully
 
   airflow-triggerer:
     <<: *airflow-common
@@ -275,3 +304,13 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+
+  selenium:
+    container_name: remote_chromedriver
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - 4444:4444
+    restart: always
+
+volumes:
+  mysql-db-volume:
